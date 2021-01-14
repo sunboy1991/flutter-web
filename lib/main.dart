@@ -80,134 +80,141 @@ class _WebcamPageState extends State<WebcamPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Center(
+        body: SingleChildScrollView(
             child: Container(
                 padding: new EdgeInsets.all(200.0),
-                child: Row(
+                child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              '推流:',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            Container(
-                                width: 500, height: 300, child: _webcamWidget),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              '拉流:',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            Container(
-                                width: 500,
-                                height: 300,
-                                child: _webcamWidgetpull),
-                          ],
-                        ),
-                      ],
+                    Container(
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                '推流:',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              Container(
+                                  width: 500,
+                                  height: 300,
+                                  child: _webcamWidget),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                '拉流:',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              Container(
+                                  width: 500,
+                                  height: 300,
+                                  child: _webcamWidgetpull),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        RaisedButton(
-                          color: Colors.blue,
-                          highlightColor: Colors.blue[700],
-                          colorBrightness: Brightness.dark,
-                          splashColor: Colors.grey,
-                          child: Text("登录房间"),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            MapOptions _mapOptions = MapOptions(
-                              userID: "1610455534676",
-                              userName: "u1610455534676",
-                            );
-                            var promise =
-                                _zg.loginRoom(roomID, token, _mapOptions);
-                            promise.then((value) {
-                              print('初始化成功：$value');
-                            }, onError: (dynamic e) {
-                              print('初始化错误：$e');
-                            });
-                          },
-                        ),
-                        RaisedButton(
-                          color: Colors.blue,
-                          highlightColor: Colors.blue[700],
-                          colorBrightness: Brightness.dark,
-                          splashColor: Colors.grey,
-                          child: Text("开始推流"),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            //创建流
-                            _zg.createStream().then((value) {
-                              print('创建流成功：$value');
-                              _webcamPushElement.srcObject = value;
-                              _webcamPushElement.srcObject.active
-                                  ? _webcamPushElement.play()
-                                  : _webcamPushElement.pause();
-                              _webcamPushElement.muted = true;
-                              localStream = value;
-                              streamID = "testId";
-                              _zg.startPublishingStream(streamID, value);
-                            }, onError: (dynamic e) {
-                              print('初始化错误：$e');
-                            });
-                          },
-                        ),
-                        RaisedButton(
-                          color: Colors.blue,
-                          highlightColor: Colors.blue[700],
-                          colorBrightness: Brightness.dark,
-                          splashColor: Colors.grey,
-                          child: Text("停止推流"),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            _webcamPushElement.pause();
-                            _webcamPushElement.srcObject = null;
-                            _zg.stopPublishingStream(streamID);
-                            _zg.destroyStream(localStream);
-                          },
-                        ),
-                        RaisedButton(
-                          color: Colors.blue,
-                          highlightColor: Colors.blue[700],
-                          colorBrightness: Brightness.dark,
-                          splashColor: Colors.grey,
-                          child: Text("停止拉流"),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            _webcamPullElement.pause();
-                            _webcamPullElement.srcObject = null;
-                            _zg.stopPlayingStream(streamID);
-                          },
-                        ),
-                        RaisedButton(
-                          color: Colors.blue,
-                          highlightColor: Colors.blue[700],
-                          colorBrightness: Brightness.dark,
-                          splashColor: Colors.grey,
-                          child: Text("退出房间"),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: () {
-                            _webcamPushElement.pause();
-                            _webcamPushElement.srcObject = null;
-                            _webcamPullElement.pause();
-                            _webcamPullElement.srcObject = null;
-                            _zg.logoutRoom(roomID);
-                          },
-                        ),
-                      ],
+                    Container(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            color: Colors.blue,
+                            highlightColor: Colors.blue[700],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("登录房间"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              MapOptions _mapOptions = MapOptions(
+                                userID: "1610455534676",
+                                userName: "u1610455534676",
+                              );
+                              var promise =
+                                  _zg.loginRoom(roomID, token, _mapOptions);
+                              promise.then((value) {
+                                print('初始化成功：$value');
+                              }, onError: (dynamic e) {
+                                print('初始化错误：$e');
+                              });
+                            },
+                          ),
+                          RaisedButton(
+                            color: Colors.blue,
+                            highlightColor: Colors.blue[700],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("开始推流"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              //创建流
+                              _zg.createStream().then((value) {
+                                print('创建流成功：$value');
+                                _webcamPushElement.srcObject = value;
+                                _webcamPushElement.srcObject.active
+                                    ? _webcamPushElement.play()
+                                    : _webcamPushElement.pause();
+                                _webcamPushElement.muted = true;
+                                localStream = value;
+                                streamID = "testId";
+                                _zg.startPublishingStream(streamID, value);
+                              }, onError: (dynamic e) {
+                                print('初始化错误：$e');
+                              });
+                            },
+                          ),
+                          RaisedButton(
+                            color: Colors.blue,
+                            highlightColor: Colors.blue[700],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("停止推流"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              _webcamPushElement.pause();
+                              _webcamPushElement.srcObject = null;
+                              _zg.stopPublishingStream(streamID);
+                              _zg.destroyStream(localStream);
+                            },
+                          ),
+                          RaisedButton(
+                            color: Colors.blue,
+                            highlightColor: Colors.blue[700],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("停止拉流"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              _webcamPullElement.pause();
+                              _webcamPullElement.srcObject = null;
+                              _zg.stopPlayingStream(streamID);
+                            },
+                          ),
+                          RaisedButton(
+                            color: Colors.blue,
+                            highlightColor: Colors.blue[700],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("退出房间"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              _webcamPushElement.pause();
+                              _webcamPushElement.srcObject = null;
+                              _webcamPullElement.pause();
+                              _webcamPullElement.srcObject = null;
+                              _zg.logoutRoom(roomID);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ))),
