@@ -2,7 +2,7 @@
  * @Author: sunboylu
  * @Date: 2021-01-11 14:59:38
  * @LastEditors: sunboylu
- * @LastEditTime: 2021-01-14 15:52:12
+ * @LastEditTime: 2021-01-14 15:54:08
  * @Description: 
 -->
 # myapp
@@ -45,8 +45,8 @@ flutter config --enable-web
 ```
  flutter run -d chrome
 ```
-```
-5.打包上线 会生成build文件 需部署到服务端
+
+6.打包上线 会生成build文件 需部署到服务端
 ```
  flutter build web
 ```
