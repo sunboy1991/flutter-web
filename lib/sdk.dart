@@ -2,7 +2,7 @@
  * @Author: sunboylu
  * @Date: 2021-01-11 19:33:44
  * @LastEditors: sunboylu
- * @LastEditTime: 2021-01-14 14:51:27
+ * @LastEditTime: 2021-01-14 18:21:54
  * @Description: 
  */
 
@@ -25,10 +25,7 @@ class ZegoExpressEngine {
   external stopPlayingStream(String streamID);
   external logoutRoom(String roomID);
 
-  external on(
-      String EventName,
-      void Function(String streamId, String updateType, List streamList,
-          String extendedData));
+  external on(String EventName, Object);
 }
 
 @JS()
