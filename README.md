@@ -2,7 +2,7 @@
  * @Author: sunboylu
  * @Date: 2021-01-11 14:59:38
  * @LastEditors: sunboylu
- * @LastEditTime: 2021-01-14 15:54:08
+ * @LastEditTime: 2021-01-14 15:59:43
  * @Description: 
 -->
 # myapp
@@ -15,7 +15,6 @@ This project is a starting point for a Flutter application.
 flutter version  1.25.0-8.2 pre
 > 注意：
 > 开发前请保证flutter SDK 已就绪
- ## Getting Started
 
 1. 切换到beta分支
 ```
