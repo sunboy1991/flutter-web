@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:myapp/sdk.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(WebcamApp());
@@ -30,14 +31,16 @@ class _WebcamPageState extends State<WebcamPage> {
   // VideoElement
   VideoElement _webcamPushElement;
   VideoElement _webcamPullElement;
+  num appId = 1739272706;
   MediaStream localStream;
   MediaStream remoteStream;
   String remoteStreamID;
   String streamID;
-  String token =
-      "eyJ2ZXIiOjEsImhhc2giOiJlMTA1MTMyMTQwOTU2MjdjZDg3NjI0MWVjMzU1NjAxZSIsIm5vbmNlIjoiMjdlYTExOTdlNWQ2MDBmN2JkNTYwZDA2YzEyNDZkMzgiLCJleHBpcmVkIjoxNjEzMDQ3NTQ0fQ==";
   String roomID = "9999";
+  String userID = new DateTime.now().millisecondsSinceEpoch.toString();
+  String userName = new DateTime.now().millisecondsSinceEpoch.toString() + "U";
   ZegoExpressEngine _zg;
+
   @override
   void initState() {
     super.initState();
@@ -73,7 +76,7 @@ class _WebcamPageState extends State<WebcamPage> {
     }
 
     // 初始化sdk
-    _zg = ZegoExpressEngine(1739272706, 'wss://wssliveroom-test.zego.im/ws');
+    _zg = ZegoExpressEngine(appId, 'wss://wssliveroom-test.zego.im/ws');
     //注册回调
     _zg.on("roomStreamUpdate", allowInterop(roomStreamUpdate));
   }
@@ -130,16 +133,27 @@ class _WebcamPageState extends State<WebcamPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0)),
                             onPressed: () {
-                              MapOptions _mapOptions = MapOptions(
-                                userID: "1610455534676",
-                                userName: "u1610455534676",
-                              );
-                              var promise =
-                                  _zg.loginRoom(roomID, token, _mapOptions);
-                              promise.then((value) {
-                                print('初始化成功：$value');
+                              //后期需要在用户自己业务后台生成
+                              var getUrl =
+                                  "https://wsliveroom-alpha.zego.im:8282/token?app_id=" +
+                                      appId.toString() +
+                                      "&id_name=" +
+                                      userID;
+                              http.get(getUrl).then((res) {
+                                var token = res.body;
+                                MapOptions _mapOptions = MapOptions(
+                                  userID: userID,
+                                  userName: userName,
+                                );
+                                var promise =
+                                    _zg.loginRoom(roomID, token, _mapOptions);
+                                promise.then((value) {
+                                  print('初始化成功：$value');
+                                }, onError: (dynamic e) {
+                                  print('初始化错误：$e');
+                                });
                               }, onError: (dynamic e) {
-                                print('初始化错误：$e');
+                                print('token获取错误：$e');
                               });
                             },
                           ),
